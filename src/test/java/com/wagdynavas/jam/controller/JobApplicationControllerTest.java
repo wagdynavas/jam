@@ -26,9 +26,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(JobApplicationController.class)
 class JobApplicationControllerTest {
 
-
     @Autowired
     private MockMvc mockMvc;
+    @MockitoBean
+    private AuthenticationService authenticationService;
 
     @MockitoBean
     private JobApplicationService jobApplicationService;
@@ -36,10 +37,8 @@ class JobApplicationControllerTest {
     @MockitoBean
     private ClientRepository clientRepository;
 
-    @MockitoBean
-    private AuthenticationService authenticationService;
-
     private static JobApplicationResponse jobApplicationResponse;
+
 
     @BeforeAll
     static void init() {
