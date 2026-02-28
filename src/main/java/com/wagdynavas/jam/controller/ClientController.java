@@ -19,15 +19,16 @@ public class ClientController {
 
     private final ClientService clientService;
 
-    @PostMapping()
-    public ResponseEntity<Client> createClient(@RequestParam String clientName, @RequestParam String clientRole) {
-        if (StringUtils.isEmpty(clientName)) {
+    @PostMapping
+    public ResponseEntity<Client> createClient(@RequestBody ClientRequest clientRequest) {
+
+        if (StringUtils.isEmpty(clientRequest.clientName())) {
             String errorMessage = "Client name cannot be empty or Null";
 
             log.warn(errorMessage);
             throw new JobApplicationException(APIErrorCode.GENERAL_VALIDATION_FAILED, errorMessage);
         }
-        return ResponseEntity.ok(clientService.createClient(clientName, clientRole));
+        return ResponseEntity.ok(clientService.createClient(clientRequest.clientName(), clientRequest.clientRole()));
     }
 
     @PatchMapping
