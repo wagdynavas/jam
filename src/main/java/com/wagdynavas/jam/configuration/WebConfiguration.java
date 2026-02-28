@@ -1,5 +1,6 @@
 package com.wagdynavas.jam.configuration;
 
+import com.wagdynavas.jam.model.Role;
 import com.wagdynavas.jam.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +25,8 @@ public class WebConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests( authorizationManager -> authorizationManager.requestMatchers("/**")
-                        .authenticated())
+                        .authenticated()
+                        .requestMatchers("/client").hasRole(Role.ADMIN.name()))
                 .httpBasic(withDefaults())
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(STATELESS))
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);

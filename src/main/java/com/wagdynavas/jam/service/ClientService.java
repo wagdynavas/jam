@@ -2,6 +2,7 @@ package com.wagdynavas.jam.service;
 
 import com.wagdynavas.jam.dto.ClientRequest;
 import com.wagdynavas.jam.model.Client;
+import com.wagdynavas.jam.model.Role;
 import com.wagdynavas.jam.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,17 +19,20 @@ public class ClientService {
     private final BCryptPasswordEncoder passwordEncoder;
 
 
-    public Client createClient(ClientRequest clientRequest) {
+    public Client createClient(String clientName, String clientRole) {
 
+        Client client = Client.builder()
+                .name(clientName)
+                .role(Role.valueOf(clientRole))
+                .build();
 
-        Client client = clientRequest.client();
         String xClientId = generateUUID();
         String key = generateKey(xClientId, 20);
 
         client.setXClientId(xClientId);
         client.setDev1Key(passwordEncoder.encode(key));
 
-        clientRepository.save(clientRequest.client());
+        clientRepository.save(client);
 
         return client;
     }

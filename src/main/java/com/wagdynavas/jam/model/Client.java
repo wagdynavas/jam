@@ -20,6 +20,9 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
+    @Column(name = "CLIENT_NAME")
+    private String name;
+
     @Column(name = "X_CLIENT_ID", nullable = false, unique = true)
     private String xClientId;
 
