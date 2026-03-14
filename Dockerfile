@@ -1,8 +1,13 @@
 # Build stage
 FROM eclipse-temurin:25 AS builder
 WORKDIR /build
+# Copy Maven wrapper and source
+COPY mvnw ./
+COPY .mvn ./.mvn
 COPY pom.xml .
 COPY src ./src
+
+# Build
 RUN ./mvnw clean package -DskipTests
 
 # Run stage
@@ -11,7 +16,7 @@ WORKDIR /opt/app
 
 # Create non-root user
 RUN addgroup --system javauser && adduser --system --group javauser
-USER javause
+USER javauser
 
 # JVM settings for container
 ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
