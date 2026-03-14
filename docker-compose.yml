@@ -2,3 +2,21 @@ version: "3.8"
 
 services:
   jam:
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      - jam-network
+  mysql:
+    image: mysql
+    environment:
+      MYSQSL_USERNAME: root
+      MYSQL_ROOT_PASSWORD: dev1
+      MYSQL_DB: jam_dev1
+    ports:
+      - "3307:3307"
+    networks:
+      - jam-network
+networks:
+  jam-network:
+    driver: bridge
